@@ -78,8 +78,11 @@ public class RecipeListViewAdapter extends ArrayAdapter implements AdapterView.O
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
-
-
+         /*
+        작성자: 김강민
+        최종수정일: 21-05-19
+        설명: 레시피 기본정보를 리스트 뷰에 출력시키기 위한 함수
+        */
         //"recipelist_item" Layout을 inflate하여 converView 참조 획득.
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -92,11 +95,10 @@ public class RecipeListViewAdapter extends ArrayAdapter implements AdapterView.O
         writerTextView = (TextView) convertView.findViewById(R.id.recipe_writer);
         recTextView = (TextView) convertView.findViewById(R.id.recipe_rec);
         dateTextView = (TextView) convertView.findViewById(R.id.wirte_date);
-
         final Recipe_item recipe_item = RecipeItemList.get(i);
-
+        // 리스트 아이템 화면에 레시피 정보를 출력시킨다.
         Glide.with(convertView)
-                .load(recipe_item.getImg_url())
+                .load("https://ifh.cc/g/CCLQCi.jpg")
                 .thumbnail(0.3f)
                 .error(R.drawable.mandish_logo2)
                 .fitCenter()
@@ -106,7 +108,6 @@ public class RecipeListViewAdapter extends ArrayAdapter implements AdapterView.O
         writerTextView.setText(recipe_item.getWriter());
         recTextView.setText("추천수: "+String.valueOf(recipe_item.getRec_cnt()));
         dateTextView.setText("작성시간: "+recipe_item.getWrite_date());
-
         return convertView;
     }
 
