@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,9 +18,10 @@
 
         <ImageView
             android:id="@+id/food_img"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>
@@ -30,6 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_margin="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearLayout3"
@@ -39,6 +41,7 @@
             android:id="@+id/recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="요리 이름"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -47,24 +50,28 @@
             android:id="@+id/recipe_intro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="요리설명" />
 
         <TextView
             android:id="@+id/recipe_writer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="작성자" />
 
         <TextView
             android:id="@+id/recipe_rec"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="추천수" />
 
         <TextView
             android:id="@+id/wirte_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="작성시간" />
 
     </LinearLayout>

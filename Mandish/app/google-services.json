@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "300763745540",
+    "firebase_url": "https://mandish-93a90-default-rtdb.firebaseio.com",
+    "project_id": "mandish-93a90",
+    "storage_bucket": "mandish-93a90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300763745540:android:591519ce7199627d4dd451",
+        "android_client_info": {
+          "package_name": "com.example.mandish_lilac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300763745540-8auphprefh70rjpkrcgqce5am3e9jgkf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgooNuZ4KwHyOVcc_6nqgX_nGO_VpHUiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300763745540-8auphprefh70rjpkrcgqce5am3e9jgkf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300763745540:android:0b45e69aef8cbe644dd451",
+        "android_client_info": {
+          "package_name": "com.example.mandish_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300763745540-8auphprefh70rjpkrcgqce5am3e9jgkf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgooNuZ4KwHyOVcc_6nqgX_nGO_VpHUiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300763745540-8auphprefh70rjpkrcgqce5am3e9jgkf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300763745540:android:b6429c0730ac591a4dd451",
+        "android_client_info": {
+          "package_name": "com.example.werd4.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300763745540-8auphprefh70rjpkrcgqce5am3e9jgkf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgooNuZ4KwHyOVcc_6nqgX_nGO_VpHUiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300763745540-8auphprefh70rjpkrcgqce5am3e9jgkf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
