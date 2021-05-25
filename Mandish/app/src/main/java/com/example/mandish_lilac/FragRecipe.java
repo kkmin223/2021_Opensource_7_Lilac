@@ -1,6 +1,9 @@
 package com.example.mandish_lilac;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,9 +36,13 @@ import java.util.ArrayList;
  */
 public class FragRecipe extends Fragment {
     private View view;
-    private ListView listView;
-    private RecipeListViewAdapter adapter;
-    ArrayList<Recipe_item> recipe_items;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Recipe_item> RecipeList;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+
     public static FragRecipe newInstance() {
         FragRecipe fragRecipe = new FragRecipe();
 
@@ -35,24 +53,38 @@ public class FragRecipe extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_recipe, container,false);
-        adapter = new RecipeListViewAdapter(getContext());
+        Context context = view.getContext();
+        recyclerView = (RecyclerView)view.findViewById(R.id.RecipeListView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        RecipeList = new ArrayList<Recipe_item>(); //Recipe 객체를 담을 배열
 
-        listView =(ListView)view.findViewById(R.id.RecipeListView);
-        listView.setAdapter(adapter);
-        adapter.addItem("콩비지동그랑땡","두부대신 콩비지를 넣어 만든 동그랑땡 맛도 좋아요!","관리자","http://file.okdab.com/recipe/148299577268400131.jpg");
-        adapter.addItem("누드김밥","건강한 재료로 가득담아 말은 누드김밥! 고기가 없어도 맛있어요!!","관리자","http://file.okdab.com/recipe/148299332505800120.jpg");
-        adapter.addItem("쪽파 새우강회","새우에 쪽파를 감아 간단하게 만들지만 새우와 쪽파의 달콤한 맛과 새콤한 초고추장의 환상의 콤비! 거기에 건강까지 좋은 영양만점 쪽파 새우강회!!","관리자","http://file.okdab.com/recipe/148299002655300119.jpg");
+        database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
+        databaseReference = database.getReference("Recipe/RecipeInfo"); //테이블 연동
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Recipe_item selectedItem = adapter.getItem(i);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //파이어베이스 데이터베이스의 데이터를 받아오는곳
+                RecipeList.clear(); // 기존 배열리스트 존재하지않게 초기화
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    //반복문으로 데이터 리스트 추출
+                    Recipe_item recipe_item = snapshot.getValue(Recipe_item.class); //만들어 두었던 레시피 아이템 객체에 담는다
+                    RecipeList.add(recipe_item); // 담은 데이터들을 배열리스트에 넣는다.
 
-                Toast.makeText(getContext(), "Clicked: " + i +" "+ selectedItem.getRecipe_name() , Toast.LENGTH_SHORT).show();
+                }
+                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // 디비를 가져오던중 에러 발생 시
+                Log.e("FragRecipe", String.valueOf(error.toException()));
             }
         });
-
-
+        adapter = new RecipeRecyclerViewAdapter(RecipeList);
+        recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
         return view;
     }
 }

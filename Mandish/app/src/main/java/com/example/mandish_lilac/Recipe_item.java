@@ -6,6 +6,8 @@ package com.example.mandish_lilac;
 최종수정일: 21-05-19
 */
 
+import android.net.Uri;
+
 import java.net.URL;
 
 public class Recipe_item {
@@ -17,10 +19,10 @@ public class Recipe_item {
     private String type_name; // 레시피 유형 이름(한식,중식,...)
     private int food_code; // 음식 유형 코드
     private String food_type; //음식 유형 (부침,튀김,...)
-    private int amount; // 음식 양을 인분으로 표현
-    private int cooktime; // 음식 조리시간
+    private String amount; // 음식 양을 인분으로 표현
+    private String cooktime; // 음식 조리시간
     private String difficulty; //음식 난이도
-    private String img_url; // 음식 이미지 url
+    private Uri img_url; // 음식 이미지 url
     private String writer; //레시피 작성자 ID
     private int rec_cnt; // 레시피 추천수
     private String  write_date; //작성시간
@@ -105,19 +107,19 @@ public class Recipe_item {
         this.food_type = food_type;
     }
 
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
-    public int getCooktime() {
+    public String getCooktime() {
         return cooktime;
     }
 
-    public void setCooktime(int cooktime) {
+    public void setCooktime(String cooktime) {
         this.cooktime = cooktime;
     }
 
@@ -129,11 +131,11 @@ public class Recipe_item {
         this.difficulty = difficulty;
     }
 
-    public String getImg_url() {
+    public Uri getImg_url() {
         return img_url;
     }
 
-    public void setImg_url(String img_url) {
+    public void setImg_url(Uri img_url) {
         this.img_url = img_url;
     }
 }
