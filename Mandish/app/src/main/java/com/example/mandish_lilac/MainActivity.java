@@ -7,6 +7,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 tab.setCustomView(textView);
             }
         }).attach();
-
 
     }
 }

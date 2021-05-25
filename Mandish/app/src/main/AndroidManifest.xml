@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Mandish_Lilac">
+        <activity android:name=".change"></activity>
+        <activity android:name=".record" />
+        <activity android:name=".followers" />
+        <activity android:name=".favorites" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
