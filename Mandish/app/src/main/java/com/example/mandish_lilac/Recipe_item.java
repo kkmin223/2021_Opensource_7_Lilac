@@ -3,7 +3,6 @@ package com.example.mandish_lilac;
 작성자: 김강민
 설명: 레시피 메뉴에서 레시피 리스트틀 출력하기 위한
 레시피 기본 정보를 담은 큰래스
-최종수정일: 21-05-19
 */
 
 import android.net.Uri;

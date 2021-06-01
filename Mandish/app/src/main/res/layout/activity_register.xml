@@ -62,7 +62,7 @@
         app:srcCompat="@drawable/pass" />
 
     <EditText
-        android:id="@+id/et_pwd2"
+        android:id="@+id/et_nic"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_pwd" />
 
     <EditText
-        android:id="@+id/et_pwd3"
+        android:id="@+id/et_name"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
@@ -87,7 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.601"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_pwd2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_nic" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -96,9 +96,9 @@
         android:background="@drawable/border"
         android:padding="3dp"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/et_pwd2"
-        app:layout_constraintEnd_toStartOf="@+id/et_pwd2"
-        app:layout_constraintTop_toTopOf="@+id/et_pwd2"
+        app:layout_constraintBottom_toBottomOf="@+id/et_nic"
+        app:layout_constraintEnd_toStartOf="@+id/et_nic"
+        app:layout_constraintTop_toTopOf="@+id/et_nic"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/name" />
 
@@ -108,9 +108,9 @@
         android:layout_height="0dp"
         android:background="@drawable/border"
         android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/et_pwd3"
-        app:layout_constraintEnd_toStartOf="@+id/et_pwd3"
-        app:layout_constraintTop_toTopOf="@+id/et_pwd3"
+        app:layout_constraintBottom_toBottomOf="@+id/et_name"
+        app:layout_constraintEnd_toStartOf="@+id/et_name"
+        app:layout_constraintTop_toTopOf="@+id/et_name"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/nic" />
 
