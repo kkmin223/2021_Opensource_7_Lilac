@@ -19,14 +19,14 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-/*
-작성자: 김강민
-설명: 레시피를 db에서 받아와서
-리사이클러뷰를 이용한 리스트 출력
- */
+
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
-
+    /*
+    작성자: 김강민
+    설명: 레시피를 db에서 받아와서
+    레시피 리스트 리사이클러뷰를 이용한 리스트 출력
+    */
     private ArrayList<Recipe_item> RecipeList;
     private Context mContext;
     private FirebaseStorage storage;
@@ -43,8 +43,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipelist_item,parent,false);
         ViewHolder holder = new ViewHolder(view);
-
-
         return holder;
     }
 
@@ -75,7 +73,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                     .fitCenter()
                     .into(holder.foodImgView);
         }
-
         holder.nameTextView.setText(RecipeList.get(position).getRecipe_name());
         holder.introTextView.setText(RecipeList.get(position).getRecipe_intro());
         holder.writerTextView.setText(RecipeList.get(position).getWriter());
