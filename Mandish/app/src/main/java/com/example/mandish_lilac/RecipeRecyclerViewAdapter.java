@@ -1,6 +1,7 @@
 package com.example.mandish_lilac;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +19,22 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+/*
+작성자: 김강민
+설명: 레시피를 db에서 받아와서
+리사이클러뷰를 이용한 리스트 출력
+ */
+
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Recipe_item> RecipeList;
+    private Context mContext;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
-    public RecipeRecyclerViewAdapter(ArrayList<Recipe_item> recipe_List) {
+    public RecipeRecyclerViewAdapter(Context context, ArrayList<Recipe_item> recipe_List) {
         RecipeList = recipe_List;
+        mContext = context;
 
     }
 
@@ -90,10 +99,26 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
             super(itemView);
             this.foodImgView = itemView.findViewById(R.id.food_img);
             this.nameTextView = itemView.findViewById(R.id.recipe_name);
-            this.introTextView = itemView.findViewById(R.id.recipe_intro);
+            this.introTextView = itemView.findViewById(R.id.type_name);
             this.writerTextView = itemView.findViewById(R.id.recipe_writer);
             this.recTextView = itemView.findViewById(R.id.recipe_rec);
             this.dateTextView = itemView.findViewById(R.id.wirte_date);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                // 아이템 클릭시 이벤트 처리
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();  //클릭한 아이템의 pos 받기
+                    if(pos != RecyclerView.NO_POSITION){
+                        Intent intent = new Intent(mContext,recipe_order.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("recipe_code", RecipeList.get(pos).getRecipe_code()); // intent에 레시피 코드 전달.
+                        mContext.startActivity(intent);
+
+                    }
+                }
+            });
         }
+
+
     }
 }
