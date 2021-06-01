@@ -31,8 +31,9 @@ import java.util.ArrayList;
 
 /*
 작성자: 김강민
-최종수정일: 21-05-17
 설명: xml을 연결해주어서 메뉴 이동을 가능하게함
+파이어베이스와 연동을 통해서 레시피 정보를 가져온 후 
+리사이클러 뷰를 사용해서 레시피 리스트 출력
  */
 public class FragRecipe extends Fragment {
     private View view;
@@ -83,8 +84,12 @@ public class FragRecipe extends Fragment {
                 Log.e("FragRecipe", String.valueOf(error.toException()));
             }
         });
-        adapter = new RecipeRecyclerViewAdapter(RecipeList);
+        adapter = new RecipeRecyclerViewAdapter(context,RecipeList);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
+
+
+
+
         return view;
     }
 }
