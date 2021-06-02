@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true">
+    <!--
+ 작성자: 김강민
+ 설명:
+ 글쓰기 버튼을 누르면 레시피 쓰기와 게시글 쓰기를 띄우기 위해서
+ Floating Action Button이 클릭했을때
+ 버튼들이 나타나게 만드는 애니메이션
+ -->
+    <scale
+        android:duration="300"
+        android:fromXScale="0.0"
+        android:fromYScale="0.0"
+        android:interpolator="@android:anim/linear_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="0.8"
+        android:toYScale="0.8" />
+    <alpha
+        android:duration="300"
+        android:fromAlpha="0.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toAlpha="1.0" />
+</set>
