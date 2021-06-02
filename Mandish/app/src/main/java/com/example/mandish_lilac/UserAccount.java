@@ -8,6 +8,17 @@ public class UserAccount {
     private String idToken; //비밀번호
     private String nic;//닉네임
     private String name;//이름
+    public class Write{
+        private String write_code;
+
+        public String getWrite_code() {
+            return write_code;
+        }
+
+        public void setWrite_code(String write_code) {
+            this.write_code = write_code;
+        }
+    }
 
     public UserAccount() {
     } //파이어베이스에서는 생성자를 만들어야한다.
