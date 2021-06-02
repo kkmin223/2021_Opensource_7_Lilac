@@ -1,6 +1,7 @@
 package com.example.mandish_lilac;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -119,8 +120,8 @@ public class FragRecipe extends Fragment {
                 break;
             case R.id.writerecipebtn:
                 btnanim();
-
-                Toast.makeText(getContext(),"writerecipebtn",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),writerecipe.class);
+                startActivity(intent);
                 break;
             case R.id.writepostbtn:
                 btnanim();
