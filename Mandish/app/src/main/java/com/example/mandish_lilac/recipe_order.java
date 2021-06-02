@@ -41,10 +41,9 @@ public class recipe_order extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager2;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private DatabaseReference recipeInfoReference;
-    private DatabaseReference orderReference;
-    private DatabaseReference ingredientReference;
-    private DatabaseReference itemReference;
+    private DatabaseReference recipeInfoReference;  //레시피 정보 데이터 베이스 테이블
+    private DatabaseReference orderReference;       //요리 순서 데이터 베이스 테이블
+    private DatabaseReference ingredientReference;  //요리 재료 데이터 베이스 테이블
     private ImageView foodImgView;
     private TextView nameTextView;
     private TextView writerTextView;
