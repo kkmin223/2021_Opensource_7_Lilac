@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -83,7 +84,7 @@ public class FragRecipe extends Fragment {
 
         database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Recipe/RecipeInfo"); //테이블 연동
-
+        
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,6 +106,7 @@ public class FragRecipe extends Fragment {
             }
         });
         adapter = new RecipeRecyclerViewAdapter(context,RecipeList);
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
 
 
