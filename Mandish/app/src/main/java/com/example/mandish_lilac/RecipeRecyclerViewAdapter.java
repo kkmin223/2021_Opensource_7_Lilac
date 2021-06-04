@@ -109,6 +109,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(mContext,recipe_order.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("recipe_code", RecipeList.get(pos).getRecipe_code()); // intent에 레시피 코드 전달.
+                        intent.putExtra("pos", pos);
                         mContext.startActivity(intent);
 
                     }

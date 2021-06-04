@@ -8,6 +8,7 @@ public class UserAccount {
     private String idToken; //비밀번호
     private String nic;//닉네임
     private String name;//이름
+    private RecipePost recipepost; // 사용자가 작성한 레시피정보
     public class Write{
         private String write_code;
 
@@ -61,5 +62,13 @@ public class UserAccount {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public RecipePost getRecipepost() {
+        return recipepost;
+    }
+
+    public void setRecipepost(RecipePost recipepost) {
+        this.recipepost = recipepost;
     }
 }

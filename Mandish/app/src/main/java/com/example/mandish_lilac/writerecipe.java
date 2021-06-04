@@ -1,5 +1,6 @@
 package com.example.mandish_lilac;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +15,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,7 +67,6 @@ public class writerecipe extends AppCompatActivity {
     private orderRecyclerViewAdapter inputorderadapter;
     private long mNow;
     private Date mDate;
-    private SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
     private int ingorder;
     private int cookorder;
 
@@ -219,12 +222,16 @@ public class writerecipe extends AppCompatActivity {
             public void onClick(View view) {
                 if(inputingredients.size()>0&&inputorders.size()>0&& isInfofull()){
                     Recipe_item inputInfo = new Recipe_item();
+                    RecipePost post = new RecipePost();
+                    SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     inputInfo.setRec_cnt(0);
+                    int recipecode;
                     mNow = System.currentTimeMillis();
+                    recipecode = (int)mNow * -1;
                     mDate = new Date(mNow);
-                    mFormat.format(mDate);
-                    inputInfo.setWrite_date(mFormat.toString());
-                    inputInfo.setRecipe_code((int)mNow * -1); // 현재 시간을 millisecond로 반환하는값으로 각각 고유값을 가져야 하는 레시피 코드를 대체함.
+                   ;
+                    inputInfo.setWrite_date( mFormat.format(mDate).toString());
+                    inputInfo.setRecipe_code(recipecode); // 현재 시간을 millisecond로 반환하는값으로 각각 고유값을 가져야 하는 레시피 코드를 대체함.
                     inputInfo.setRecipe_intro(eintro.getText().toString());
                     inputInfo.setAmount(eamount.getText().toString());
                     inputInfo.setCooktime(etime.getText().toString());
@@ -232,7 +239,21 @@ public class writerecipe extends AppCompatActivity {
                     inputInfo.setFood_type(efoodtype.getText().toString());
                     inputInfo.setType_name(efood.getText().toString());
                     inputInfo.setRecipe_name(erecipename.getText().toString());
+                    post.setRecipe_code(recipecode);
+                    userReference.child(uid).child("RecipePost").child(String.valueOf(recipecode)).setValue(post); // user 데이터베이스에 저장.
+                    recipeInfoReference.child(String.valueOf(recipecode)).setValue(inputInfo); // recipecode를 키값으로 데이터베이스에 저장.
+                    for(int i=0;i<inputingredients.size();i++){
+                        inputingredients.get(i).setRecipe_code(recipecode);
+                        inputingredients.get(i).setMaterial_code(recipecode+i);
+                        ingredientReference.child(String.valueOf(recipecode+i)).setValue(inputingredients.get(i)); //재료추가
+                    }
+                    for(int i=0;i<inputorders.size();i++){
+                        inputorders.get(i).setRecipe_code(recipecode);
+                        orderReference.child(String.valueOf(recipecode)+i).setValue(inputorders.get(i)); //순서추가
+                    }
+                    Toast.makeText(writerecipe.this,mFormat.format(mDate).toString(),Toast.LENGTH_SHORT).show();
                 }
+
                 else{
                     Toast.makeText(writerecipe.this,"레시피 정보를 모두 입력해주세요",Toast.LENGTH_SHORT).show();
                 }
