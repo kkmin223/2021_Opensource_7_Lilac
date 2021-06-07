@@ -23,11 +23,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 /*
 작성자: 김강민
@@ -37,10 +40,9 @@ import java.util.ArrayList;
 public class FragMypage extends Fragment {
     FirebaseDatabase mDatabase;
     DatabaseReference mDatabaseref;
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private TextView profile_id,profile_nic,profile_name,profile_write;
+     TextView profile_id,profile_nic,profile_name,profile_write,favorite,follow,record;
     private View view;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -65,7 +67,6 @@ public class FragMypage extends Fragment {
 
                 view = inflater.inflate(R.layout.frag_mypage, container,false);
                 mDatabase = FirebaseDatabase.getInstance();
-
                 mDatabaseref = mDatabase.getReference("UserAccount");
 
                 mDatabaseref.child(uid).child("emailId").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -124,8 +125,22 @@ public class FragMypage extends Fragment {
                 profile_name= (TextView) view.findViewById(R.id.profile_name);
                 profile_write=(TextView)view.findViewById(R.id.profile_write);
 
+                favorite=(TextView)view.findViewById(R.id.favorite_data);
+                follow=(TextView)view.findViewById(R.id.follow_data);
+                record=(TextView)view.findViewById(R.id.record_data);
 
 
+                mDatabaseref.child(uid).child("RecRecipe").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 Button btnFollowers = (Button)view.findViewById(R.id.btnFollowers);
                 btnFollowers.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -153,14 +168,7 @@ public class FragMypage extends Fragment {
                     }
                 });
 
-                Button btnService = (Button)view.findViewById(R.id.btnService);
-                btnService.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), change.class);
-                        startActivity(intent);
-                    }
-                });
+
 
                 return view;
         }

@@ -102,7 +102,7 @@ public class FragRecipe extends Fragment {
                 // 디비를 가져오던중 에러 발생 시
                 Log.e("FragRecipe", String.valueOf(error.toException()));
             }
-        });
+        }); 
         adapter = new RecipeRecyclerViewAdapter(context,RecipeList);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
 
