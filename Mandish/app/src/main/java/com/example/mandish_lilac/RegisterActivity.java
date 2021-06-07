@@ -22,7 +22,7 @@ public class RegisterActivity extends AppCompatActivity
 {
     private FirebaseAuth mFirebaseAuth; //파이어베이스 인증
     private DatabaseReference mDatabaseRef; //실시간 데이터베이스
-    private EditText mEtEmail,mEtPwd; //회원가입 입력필드
+    private EditText mEtEmail,mEtPwd,mEtNic,mEtName; //회원가입 입력필드
     private Button mBtnRegister; //회원가입 버튼
 
 
@@ -36,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity
 
         mEtEmail=findViewById(R.id.et_email);
         mEtPwd=findViewById(R.id.et_pwd);
+        mEtNic=findViewById(R.id.et_nic);
+        mEtName=findViewById(R.id.et_name);
         mBtnRegister=findViewById(R.id.btn_register);
 
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
@@ -44,29 +46,34 @@ public class RegisterActivity extends AppCompatActivity
                 //회원가입 처리 시작
                 String strEmail=mEtEmail.getText().toString();
                 String strPwd=mEtPwd.getText().toString();
+                String strNic=mEtNic.getText().toString();
+                String strName=mEtName.getText().toString();
 
                 //Firebase Auth 진행
                 mFirebaseAuth.createUserWithEmailAndPassword(strEmail,strPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>()
                 {
                     @Override//인증처리가 되었을때
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        FirebaseUser firebaseUser= mFirebaseAuth.getCurrentUser();
-                        UserAccount account=new UserAccount();
-                        account.setIdToken(firebaseUser.getUid());
-                        account.setEmailId(firebaseUser.getEmail());
-                        account.setPassword(strPwd);
-                        //setValue: database insert(삽입) 행위
-                        mDatabaseRef.child(firebaseUser.getUid()).setValue(account);
+                        if(task.isSuccessful()){
+                            FirebaseUser firebaseUser= mFirebaseAuth.getCurrentUser();
+                            UserAccount account=new UserAccount();
+                            account.setIdToken(firebaseUser.getUid());
+                            account.setEmailId(firebaseUser.getEmail());
+                            account.setPassword(strPwd);
+                            account.setNic(strNic);
+                            account.setName(strName);
 
-                        Toast.makeText(RegisterActivity.this,"회원가입에 성공",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-                        startActivity(intent);
+                            //setValue: database insert(삽입) 행위
+                            mDatabaseRef.child(firebaseUser.getUid()).setValue(account);
 
-                    }
-                    else{
-                        Toast.makeText(RegisterActivity.this,"회원가입에 실패하셨습니다",Toast.LENGTH_SHORT).show();
-                    }
+                            Toast.makeText(RegisterActivity.this,"회원가입에 성공",Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+                            startActivity(intent);
+
+                        }
+                        else{
+                            Toast.makeText(RegisterActivity.this,"회원가입에 실패하셨습니다",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

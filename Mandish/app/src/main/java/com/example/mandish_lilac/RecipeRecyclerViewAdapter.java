@@ -1,6 +1,7 @@
 package com.example.mandish_lilac;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,16 +22,26 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
 
+
+public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
+    /*
+    작성자: 김강민
+    설명: 레시피를 db에서 받아와서
+    레시피 리스트 리사이클러뷰를 이용한 리스트 출력
+    */
     private ArrayList<Recipe_item> RecipeList;
     private ArrayList<Recipe_item> RecipeListFull;
+    private Context mContext;
+
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
-    public RecipeRecyclerViewAdapter(ArrayList<Recipe_item> recipe_List) {
+    public RecipeRecyclerViewAdapter(Context context, ArrayList<Recipe_item> recipe_List) {
         RecipeList = recipe_List;
+
         RecipeListFull = new ArrayList<>(recipe_List);
+        mContext = context;
     }
 
     @NonNull
@@ -38,8 +49,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipelist_item,parent,false);
         ViewHolder holder = new ViewHolder(view);
-
-
         return holder;
     }
 
@@ -70,7 +79,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                     .fitCenter()
                     .into(holder.foodImgView);
         }
-
         holder.nameTextView.setText(RecipeList.get(position).getRecipe_name());
         holder.introTextView.setText(RecipeList.get(position).getRecipe_intro());
         holder.writerTextView.setText(RecipeList.get(position).getWriter());
@@ -94,44 +102,28 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
             super(itemView);
             this.foodImgView = itemView.findViewById(R.id.food_img);
             this.nameTextView = itemView.findViewById(R.id.recipe_name);
-            this.introTextView = itemView.findViewById(R.id.recipe_intro);
+            this.introTextView = itemView.findViewById(R.id.type_name);
             this.writerTextView = itemView.findViewById(R.id.recipe_writer);
             this.recTextView = itemView.findViewById(R.id.recipe_rec);
             this.dateTextView = itemView.findViewById(R.id.wirte_date);
-        }
-    }
 
-    /*@Override
-    public Filter getFilter() {
-        return exampleFilter;
-    }
-    private Filter exampleFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Recipe_item> filteredList = new ArrayList<>();
+            itemView.setOnClickListener(new View.OnClickListener(){
+                // 아이템 클릭시 이벤트 처리
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();  //클릭한 아이템의 pos 받기
+                    if(pos != RecyclerView.NO_POSITION){
+                        Intent intent = new Intent(mContext,recipe_order.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("recipe_code", RecipeList.get(pos).getRecipe_code()); // intent에 레시피 코드 전달.
+                        intent.putExtra("pos", pos);
+                        mContext.startActivity(intent);
 
-            if(constraint == null || constraint.length() == 0){
-                filteredList.addAll(RecipeListFull);
-            } else{
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for(Recipe_item item : RecipeListFull){
-                    if (item.getRecipe_name().toLowerCase().contains(filterPattern)){
-                        filteredList.add(item);
                     }
                 }
-            }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-
-            return results;
+            });
         }
 
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults results) {
-            RecipeList.clear();
-            RecipeList.addAll((ArrayList)results.values);
-            notifyDataSetChanged();
-        }
-    };*/
+
+    }
+
 }
