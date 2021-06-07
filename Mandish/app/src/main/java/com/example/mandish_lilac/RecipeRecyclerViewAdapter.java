@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,16 +19,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Recipe_item> RecipeList;
+    private ArrayList<Recipe_item> RecipeListFull;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
     public RecipeRecyclerViewAdapter(ArrayList<Recipe_item> recipe_List) {
         RecipeList = recipe_List;
-
+        RecipeListFull = new ArrayList<>(recipe_List);
     }
 
     @NonNull
@@ -96,4 +100,38 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
             this.dateTextView = itemView.findViewById(R.id.wirte_date);
         }
     }
+
+    /*@Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Recipe_item> filteredList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(RecipeListFull);
+            } else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for(Recipe_item item : RecipeListFull){
+                    if (item.getRecipe_name().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            RecipeList.clear();
+            RecipeList.addAll((ArrayList)results.values);
+            notifyDataSetChanged();
+        }
+    };*/
 }
