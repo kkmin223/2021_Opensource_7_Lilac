@@ -52,7 +52,7 @@ import java.util.ArrayList;
 public class FragRecipe extends Fragment{
     private View view;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter recipeadapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Recipe_item> RecipeList, filteredList;
     private FirebaseDatabase database;
@@ -76,6 +76,8 @@ public class FragRecipe extends Fragment{
 
     public static FragRecipe newInstance() {
         FragRecipe fragRecipe = new FragRecipe();
+
+
         return fragRecipe;
     }
 
@@ -108,6 +110,7 @@ public class FragRecipe extends Fragment{
 
 
 
+
         mSearchField = (EditText)view.findViewById(R.id.search_field);
         mSearchBtn = (ImageButton)view.findViewById(R.id.search_btn);
 
@@ -131,7 +134,7 @@ public class FragRecipe extends Fragment{
                     RecipeList.add(recipe_item); // 담은 데이터들을 배열리스트에 넣는다.
 
                 }
-                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                recipeadapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
             }
 
             @Override
@@ -140,9 +143,9 @@ public class FragRecipe extends Fragment{
                 Log.e("FragRecipe", String.valueOf(error.toException()));
             }
         });
-        adapter = new RecipeRecyclerViewAdapter(context,RecipeList);
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
+        recipeadapter = new RecipeRecyclerViewAdapter(context,RecipeList);
+        recipeadapter.notifyDataSetChanged();
+        recyclerView.setAdapter(recipeadapter); //리사이클러뷰에 어댑터 연결
 
 
         return view;
@@ -190,6 +193,7 @@ public class FragRecipe extends Fragment{
                 btnanim();
                 Intent intent = new Intent(getActivity(),writerecipe.class);
                 startActivity(intent);
+                recipeadapter.notifyDataSetChanged();
                 break;
             case R.id.writepostbtn:
                 btnanim();
