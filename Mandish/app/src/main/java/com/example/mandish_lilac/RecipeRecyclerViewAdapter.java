@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -28,14 +31,17 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     레시피 리스트 리사이클러뷰를 이용한 리스트 출력
     */
     private ArrayList<Recipe_item> RecipeList;
+    private ArrayList<Recipe_item> RecipeListFull;
     private Context mContext;
+
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
     public RecipeRecyclerViewAdapter(Context context, ArrayList<Recipe_item> recipe_List) {
         RecipeList = recipe_List;
-        mContext = context;
 
+        RecipeListFull = new ArrayList<>(recipe_List);
+        mContext = context;
     }
 
     @NonNull
@@ -119,4 +125,5 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
 
     }
+
 }
