@@ -121,6 +121,9 @@ public class recipe_order extends AppCompatActivity {
                    recipeInfoReference.child(String.valueOf(code)).child("rec_cnt").setValue(item.getRec_cnt() + 1);
                    userReference.child(uid).child("RecRecipe").child(String.valueOf(item.getRecipe_code())).setValue(temp);
                }
+               Intent intent = getIntent();
+               finish();
+               startActivity(intent);
             }
         });
 

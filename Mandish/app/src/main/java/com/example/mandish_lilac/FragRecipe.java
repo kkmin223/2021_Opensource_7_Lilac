@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class FragRecipe extends Fragment {
     private View view;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter recipeadapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Recipe_item> RecipeList;
     private FirebaseDatabase database;
@@ -56,6 +56,8 @@ public class FragRecipe extends Fragment {
 
     public static FragRecipe newInstance() {
         FragRecipe fragRecipe = new FragRecipe();
+
+
         return fragRecipe;
     }
 
@@ -84,7 +86,7 @@ public class FragRecipe extends Fragment {
 
         database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
         databaseReference = database.getReference("Recipe/RecipeInfo"); //테이블 연동
-        
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,7 +98,7 @@ public class FragRecipe extends Fragment {
                     RecipeList.add(recipe_item); // 담은 데이터들을 배열리스트에 넣는다.
 
                 }
-                adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+                recipeadapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
             }
 
             @Override
@@ -105,9 +107,9 @@ public class FragRecipe extends Fragment {
                 Log.e("FragRecipe", String.valueOf(error.toException()));
             }
         });
-        adapter = new RecipeRecyclerViewAdapter(context,RecipeList);
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
+        recipeadapter = new RecipeRecyclerViewAdapter(context,RecipeList);
+        recipeadapter.notifyDataSetChanged();
+        recyclerView.setAdapter(recipeadapter); //리사이클러뷰에 어댑터 연결
 
 
 
@@ -124,6 +126,7 @@ public class FragRecipe extends Fragment {
                 btnanim();
                 Intent intent = new Intent(getActivity(),writerecipe.class);
                 startActivity(intent);
+                recipeadapter.notifyDataSetChanged();
                 break;
             case R.id.writepostbtn:
                 btnanim();

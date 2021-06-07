@@ -229,7 +229,6 @@ public class writerecipe extends AppCompatActivity {
                     mNow = System.currentTimeMillis();
                     recipecode = (int)mNow * -1;
                     mDate = new Date(mNow);
-                   ;
                     inputInfo.setWrite_date( mFormat.format(mDate).toString());
                     inputInfo.setRecipe_code(recipecode); // 현재 시간을 millisecond로 반환하는값으로 각각 고유값을 가져야 하는 레시피 코드를 대체함.
                     inputInfo.setRecipe_intro(eintro.getText().toString());
