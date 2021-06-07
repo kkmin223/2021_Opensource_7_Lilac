@@ -229,6 +229,7 @@ public class writerecipe extends AppCompatActivity {
                     mNow = System.currentTimeMillis();
                     recipecode = (int)mNow * -1;
                     mDate = new Date(mNow);
+
                     inputInfo.setWrite_date( mFormat.format(mDate).toString());
                     inputInfo.setRecipe_code(recipecode); // 현재 시간을 millisecond로 반환하는값으로 각각 고유값을 가져야 하는 레시피 코드를 대체함.
                     inputInfo.setRecipe_intro(eintro.getText().toString());
@@ -240,6 +241,7 @@ public class writerecipe extends AppCompatActivity {
                     inputInfo.setRecipe_name(erecipename.getText().toString());
                     post.setRecipe_code(recipecode);
                     userReference.child(uid).child("RecipePost").child(String.valueOf(recipecode)).setValue(post); // user 데이터베이스에 저장.
+                    userReference.child(uid).child("nic").getKey();
                     recipeInfoReference.child(String.valueOf(recipecode)).setValue(inputInfo); // recipecode를 키값으로 데이터베이스에 저장.
                     for(int i=0;i<inputingredients.size();i++){
                         inputingredients.get(i).setRecipe_code(recipecode);
