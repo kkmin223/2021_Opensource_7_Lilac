@@ -153,8 +153,10 @@ public class FragRecipe extends Fragment{
 
     private View firebaseUserSearch(String searchText) {
         Toast.makeText(getActivity(), "Started Search", Toast.LENGTH_LONG).show();
+        Context context = view.getContext();
         databaseReference.orderByChild("recipe_name").startAt(searchText).endAt(searchText + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
+
+            @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             //파이어베이스 데이터베이스의 데이터를 받아오는곳
             RecipeList.clear(); // 기존 배열리스트 존재하지않게 초기화
@@ -164,7 +166,7 @@ public class FragRecipe extends Fragment{
                 RecipeList.add(recipe_item); // 담은 데이터들을 배열리스트에 넣는다.
 
             }
-            adapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
+            recipeadapter.notifyDataSetChanged(); // 리스트 저장 및 새로고침
         }
 
         @Override
@@ -172,16 +174,14 @@ public class FragRecipe extends Fragment{
             // 디비를 가져오던중 에러 발생 시
             Log.e("FragRecipe", String.valueOf(error.toException()));
         }
+
     });
-        adapter = new RecipeRecyclerViewAdapter(RecipeList);
-        recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
+        recipeadapter = new RecipeRecyclerViewAdapter(context,RecipeList);
+        recyclerView.setAdapter(recipeadapter); //리사이클러뷰에 어댑터 연결
 
         return view;
     }
 
-
-        return view;
-    }
     public void writebtn_onClick(View v){
         int id = v.getId();
         switch (id){
