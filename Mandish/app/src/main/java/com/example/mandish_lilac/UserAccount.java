@@ -91,4 +91,12 @@ public class UserAccount {
     public void setRecipepost(RecipePost recipepost) {
         this.recipepost = recipepost;
     }
+
+    public RecRecipe getRecrecipe() {
+        return recrecipe;
+    }
+
+    public void setRecrecipe(RecRecipe recrecipe) {
+        this.recrecipe = recrecipe;
+    }
 }

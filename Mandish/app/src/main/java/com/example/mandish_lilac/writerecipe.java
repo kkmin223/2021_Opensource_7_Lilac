@@ -69,7 +69,7 @@ public class writerecipe extends AppCompatActivity {
     private Date mDate;
     private int ingorder;
     private int cookorder;
-
+    private String writer;
     public boolean isInfofull(){
         if(erecipename.length()!=0&& eamount.length()!= 0 && edifficulty.length() != 0 && efood.length()!=0
                 && efoodtype.length()!=0 && etime.length()!=0 && eintro.length() !=0){
@@ -122,7 +122,17 @@ public class writerecipe extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid=user!=null?user.getUid():null;  // 현재 접속중인 user의 uid 가져오기
 
+        userReference.child(uid).child("nic").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                writer = snapshot.getValue(String.class);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         backbtn.setOnClickListener(new View.OnClickListener(){
             //뒤로가기 버튼 구현
             @Override
@@ -239,9 +249,11 @@ public class writerecipe extends AppCompatActivity {
                     inputInfo.setFood_type(efoodtype.getText().toString());
                     inputInfo.setType_name(efood.getText().toString());
                     inputInfo.setRecipe_name(erecipename.getText().toString());
+
+                    inputInfo.setWriter(writer);
                     post.setRecipe_code(recipecode);
                     userReference.child(uid).child("RecipePost").child(String.valueOf(recipecode)).setValue(post); // user 데이터베이스에 저장.
-                    userReference.child(uid).child("nic").getKey();
+
                     recipeInfoReference.child(String.valueOf(recipecode)).setValue(inputInfo); // recipecode를 키값으로 데이터베이스에 저장.
                     for(int i=0;i<inputingredients.size();i++){
                         inputingredients.get(i).setRecipe_code(recipecode);
@@ -252,10 +264,12 @@ public class writerecipe extends AppCompatActivity {
                         inputorders.get(i).setRecipe_code(recipecode);
                         orderReference.child(String.valueOf(recipecode)+i).setValue(inputorders.get(i)); //순서추가
                     }
-                    Toast.makeText(writerecipe.this,mFormat.format(mDate).toString(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(writerecipe.this,"레시피 등록 완료",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
                 else{
+
                     Toast.makeText(writerecipe.this,"레시피 정보를 모두 입력해주세요",Toast.LENGTH_SHORT).show();
                 }
             }

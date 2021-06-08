@@ -187,7 +187,6 @@ public class FragRecipe extends Fragment{
         switch (id){
             case R.id.writebtn:
                 btnanim();
-                Toast.makeText(getContext(),"writeBtn",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.writerecipebtn:
                 btnanim();
