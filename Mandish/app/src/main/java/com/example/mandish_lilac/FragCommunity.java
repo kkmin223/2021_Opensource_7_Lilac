@@ -159,7 +159,7 @@ public class FragCommunity extends Fragment implements View.OnClickListener {
                         Intent intent = new Intent(v.getContext(),ReadText.class);
                         intent.putExtra("title",WriteList.get(getPosition()).getTitle());
                         intent.putExtra("content",WriteList.get(getPosition()).getContents());
-                        intent.putExtra("name",WriteList.get(getPosition()).getContents());
+                        intent.putExtra("name",WriteList.get(getPosition()).getName());
                         intent.putExtra("id",WriteList.get(getPosition()).getId());
                         v.getContext().startActivity(intent);
                     }
