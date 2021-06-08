@@ -80,7 +80,8 @@ public class FragMypage extends Fragment {
                     profile_id.setText(String.valueOf(task.getResult().getValue()));
                 }
             }
-        });mDatabaseref.child(uid).child("nic").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        });
+                mDatabaseref.child(uid).child("nic").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(!task.isSuccessful()){

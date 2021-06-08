@@ -8,12 +8,25 @@ public class UserAccount {
     private String idToken; //비밀번호
     private String nic;//닉네임
     private String name;//이름
+    private RecipePost recipepost; // 사용자가 작성한 레시피정보
+    private RecRecipe recrecipe;
     public class Write{
         private String write_code;
 
         public String getWrite_code() {
             return write_code;
         }
+    public class favorite{
+            String name;
+
+            favorite(){}
+
+            favorite(String name){
+                this.name=name;
+            }
+            public String getName(){return name;}
+
+    }
 
         public void setWrite_code(String write_code) {
             this.write_code = write_code;
@@ -22,6 +35,14 @@ public class UserAccount {
 
     public UserAccount() {
     } //파이어베이스에서는 생성자를 만들어야한다.
+
+    public RecRecipe getRecrecipe() {
+        return recrecipe;
+    }
+
+    public void setRecrecipe(RecRecipe recrecipe) {
+        this.recrecipe = recrecipe;
+    }
 
     public String getEmailId() {
         return emailId;
@@ -61,5 +82,13 @@ public class UserAccount {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public RecipePost getRecipepost() {
+        return recipepost;
+    }
+
+    public void setRecipepost(RecipePost recipepost) {
+        this.recipepost = recipepost;
     }
 }

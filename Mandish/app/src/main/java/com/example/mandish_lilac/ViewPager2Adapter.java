@@ -10,6 +10,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 설명: 상단 메뉴 탭으로 페이지를 이동하는 기능
  */
 public class ViewPager2Adapter  extends FragmentStateAdapter {
+    private String mSearchTerm;
     public ViewPager2Adapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -32,5 +33,9 @@ public class ViewPager2Adapter  extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return 3;
+    }
+
+    public void setTextQueryChanged(String newText){
+        mSearchTerm = newText;
     }
 }
