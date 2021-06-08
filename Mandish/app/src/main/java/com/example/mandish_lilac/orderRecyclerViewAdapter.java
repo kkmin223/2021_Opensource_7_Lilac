@@ -62,7 +62,7 @@ public class orderRecyclerViewAdapter extends RecyclerView.Adapter<orderRecycler
 
     @Override
     public void onBindViewHolder(@NonNull orderRecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.description.setText(orderList.get(position).getCook_order()+". "+orderList.get(position).getOrder_description());
+        holder.description.setText(orderList.get(position).getOrder_description());
         if(!orderList.get(position).getOrder_tip().contains("null")){
             holder.tip.setText("Tip: "+orderList.get(position).getOrder_tip());
         }
