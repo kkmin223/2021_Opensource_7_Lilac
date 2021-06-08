@@ -81,7 +81,7 @@ public class record extends AppCompatActivity{
             }
         });
 
-        databaseReference.orderByChild("writer").startAt("sss").endAt("sss" + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.orderByChild("writer").startAt("abcd").endAt("abcd" + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //파이어베이스 데이터베이스의 데이터를 받아오는곳
