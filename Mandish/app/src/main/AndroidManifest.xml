@@ -18,6 +18,9 @@
         <activity android:name=".recipeingredients_item" />
         <activity android:name=".recipe_order" />
         <activity android:name=".recipeorder" />
+        <activity android:name=".WriteMainActivity" />
+        <activity android:name=".ReadText" />
+
 
         <activity android:name=".LoginActivity">
             <intent-filter>
