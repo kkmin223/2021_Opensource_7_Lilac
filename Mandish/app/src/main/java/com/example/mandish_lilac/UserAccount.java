@@ -9,6 +9,7 @@ public class UserAccount {
     private String nic;//닉네임
     private String name;//이름
     private RecipePost recipepost; // 사용자가 작성한 레시피정보
+    private RecRecipe recrecipe;
     public class Write{
         private String write_code;
 
@@ -70,5 +71,13 @@ public class UserAccount {
 
     public void setRecipepost(RecipePost recipepost) {
         this.recipepost = recipepost;
+    }
+
+    public RecRecipe getRecrecipe() {
+        return recrecipe;
+    }
+
+    public void setRecrecipe(RecRecipe recrecipe) {
+        this.recrecipe = recrecipe;
     }
 }

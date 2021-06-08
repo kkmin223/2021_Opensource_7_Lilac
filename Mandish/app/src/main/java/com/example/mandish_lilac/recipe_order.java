@@ -1,6 +1,7 @@
 package com.example.mandish_lilac;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +15,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,6 +67,10 @@ public class recipe_order extends AppCompatActivity {
     private TextView recTextView;
     private TextView dateTextView;
     private ImageButton recbtn;
+    private  UserAccount cur;
+    private RecRecipe Rec;
+    private ImageButton backbtn;
+    private int flag=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /*
@@ -107,117 +115,136 @@ public class recipe_order extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid=user!=null?user.getUid():null;  // 현재 접속중인 user의 uid 가져오기
         WebView webview;
+        backbtn = findViewById(R.id.infobackbtn);
         recbtn.setOnClickListener(new View.OnClickListener() {
-            RecRecipe temp = new RecRecipe();
-
             @Override
             public void onClick(View view) {
+                RecRecipe temp = new RecRecipe();
                 temp.setRecipe_code(item.getRecipe_code());
-               if(recipeInfoReference.child(String.valueOf(pos))!=null){
-                   recipeInfoReference.child(String.valueOf(pos)).child("rec_cnt").setValue(item.getRec_cnt()+1);
-                   userReference.child(uid).child("RecRecipe").child(String.valueOf(item.getRecipe_code())).setValue(temp);
-               }
-               else if(recipeInfoReference.child(String.valueOf(code))!=null) {
-                   recipeInfoReference.child(String.valueOf(code)).child("rec_cnt").setValue(item.getRec_cnt() + 1);
-                   userReference.child(uid).child("RecRecipe").child(String.valueOf(item.getRecipe_code())).setValue(temp);
-               }
-               Intent intent = getIntent();
-               finish();
-               startActivity(intent);
+                if(flag==0){
+                    recipeInfoReference.child(String.valueOf(pos)).child("rec_cnt").setValue(item.getRec_cnt() + 1);
+                    userReference.child(uid).child("RecRecipe").child(String.valueOf(item.getRecipe_code())).setValue(temp);
+                    recbtn.setImageResource(R.drawable.like_on);
+                    flag=1;
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                    flag=1;
+                }
+                else if (flag==1){
+                    recipeInfoReference.child(String.valueOf(pos)).child("rec_cnt").setValue(item.getRec_cnt() - 1);
+                    userReference.child(uid).child("RecRecipe").child(String.valueOf(item.getRecipe_code())).setValue(temp);
+                    recbtn.setImageResource(R.drawable.like);
+                    flag=0;
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                    flag=0;
+                }
+
             }
         });
 
 
-        recipeInfoReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            //레시피 코드를 통해서 데이터베이스에서 음식 정보 가져오기
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot temp : snapshot.getChildren()) {
-                    if (temp.getValue(Recipe_item.class).getRecipe_code() == code) {
-                        item = temp.getValue(Recipe_item.class);
-                        nameTextView.setText(item.getRecipe_name());
-                        writerTextView.setText(item.getWriter());
-                        typenameTextView.setText("#"+item.getType_name());
-                        foodtypeTextView.setText(" #"+item.getFood_type());
-                        difficultyTextView.setText("#"+item.getDifficulty());
-                        cooktimeTextView.setText(" #"+item.getCooktime());
-                        amountTextView.setText(" #"+item.getAmount());
-                        recTextView.setText(String.valueOf(item.getRec_cnt()));
-                        dateTextView.setText(item.getWrite_date());
-                        if(item.getImg_url()==null){
-                            //db에 이미지가 없다면 스토리지에서 가져온다
-                            storageReference.child("FoodInfo/f_"+item.getRecipe_code()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
+                recipeInfoReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    //레시피 코드를 통해서 데이터베이스에서 음식 정보 가져오기
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot temp : snapshot.getChildren()) {
+                            if (temp.getValue(Recipe_item.class).getRecipe_code() == code) {
+                                item = temp.getValue(Recipe_item.class);
+                                nameTextView.setText(item.getRecipe_name());
+                                writerTextView.setText(item.getWriter());
+                                typenameTextView.setText("#" + item.getType_name());
+                                foodtypeTextView.setText(" #" + item.getFood_type());
+                                difficultyTextView.setText("#" + item.getDifficulty());
+                                cooktimeTextView.setText(" #" + item.getCooktime());
+                                amountTextView.setText(" #" + item.getAmount());
+                                recTextView.setText(String.valueOf(item.getRec_cnt()));
+                                dateTextView.setText(item.getWrite_date());
+
+                                if(flag==1){
+                                    recbtn.setImageResource(R.drawable.like_on);
+                                }
+                                else {
+                                    recbtn.setImageResource(R.drawable.like);
+                                }
+                                if (item.getImg_url() == null) {
+                                    //db에 이미지가 없다면 스토리지에서 가져온다
+                                    storageReference.child("FoodInfo/f_" + item.getRecipe_code() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Glide.with(recipe_order.this)
+                                                    .load(uri)
+                                                    .thumbnail(0.3f)
+                                                    .dontAnimate()
+                                                    .error(R.drawable.mandish_logo2)
+                                                    .into(foodImgView);
+                                        }
+                                    });
+                                } else {
                                     Glide.with(recipe_order.this)
-                                            .load(uri)
+                                            .load(item.getImg_url())
                                             .thumbnail(0.3f)
                                             .dontAnimate()
                                             .error(R.drawable.mandish_logo2)
+                                            .fitCenter()
                                             .into(foodImgView);
                                 }
-                            });
+                                break;
+                            }
                         }
-                        else {
-                            Glide.with(recipe_order.this)
-                                    .load(item.getImg_url())
-                                    .thumbnail(0.3f)
-                                    .dontAnimate()
-                                    .error(R.drawable.mandish_logo2)
-                                    .fitCenter()
-                                    .into(foodImgView);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                orderReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    //db에서 레시피 코드에 맞는 레시피 순서를 받아오고 orderRecyclerViewAdapter로 순서 리스트 출력
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot orderSnapshot) {
+
+                        for (DataSnapshot snapshot : orderSnapshot.getChildren()) {
+                            order item = snapshot.getValue(order.class);
+                            if (item.getRecipe_code() == code) {
+                                orderList.add(item);
+                            }
                         }
-                        break;
+                        orderAdapter.notifyDataSetChanged();
                     }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-        orderReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            //db에서 레시피 코드에 맞는 레시피 순서를 받아오고 orderRecyclerViewAdapter로 순서 리스트 출력
-            @Override
-            public void onDataChange(@NonNull DataSnapshot orderSnapshot) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                for(DataSnapshot snapshot : orderSnapshot.getChildren() ){
-                    order item = snapshot.getValue(order.class);
-                    if(item.getRecipe_code()==code){
-                        orderList.add(item);
                     }
-                }
-                orderAdapter.notifyDataSetChanged();
-            }
+                });
+                orderAdapter = new orderRecyclerViewAdapter(orderList);
+                orderRecyclerView.setAdapter(orderAdapter);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                ingredientReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-            }
-        });
-        orderAdapter = new orderRecyclerViewAdapter(orderList);
-        orderRecyclerView.setAdapter(orderAdapter);
-
-        ingredientReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot a : snapshot.getChildren()){
-                    ingredient tmp = a.getValue(ingredient.class);
-                    if(tmp.getRecipe_code()==code){
-                        ingredientList.add(tmp);
+                        for (DataSnapshot a : snapshot.getChildren()) {
+                            ingredient tmp = a.getValue(ingredient.class);
+                            if (tmp.getRecipe_code() == code) {
+                                ingredientList.add(tmp);
+                            }
+                        }
+                        ingredientAdapter.notifyDataSetChanged();
                     }
-                }
-                ingredientAdapter.notifyDataSetChanged();
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                ingredientAdapter = new ingredientRecyclerViewAdapter(ingredientList);
+                ingredientRecyclerView.setAdapter(ingredientAdapter);
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        ingredientAdapter = new ingredientRecyclerViewAdapter(ingredientList);
-        ingredientRecyclerView.setAdapter(ingredientAdapter);
+        }
 
 
-    }
-}
+
