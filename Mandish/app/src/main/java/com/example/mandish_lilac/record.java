@@ -1,3 +1,7 @@
+/*
+작성자 : 오기탁
+작성자가 작성한 글을 열람하는 기능
+ */
 package com.example.mandish_lilac;
 
 import androidx.annotation.NonNull;
@@ -81,7 +85,7 @@ public class record extends AppCompatActivity{
             }
         });
 
-        databaseReference.orderByChild("writer").startAt("sss").endAt("sss" + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.orderByChild("writer").startAt(postWriter).endAt(postWriter + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //파이어베이스 데이터베이스의 데이터를 받아오는곳

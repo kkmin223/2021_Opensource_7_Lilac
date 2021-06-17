@@ -48,6 +48,9 @@ import java.util.ArrayList;
 설명: xml을 연결해주어서 메뉴 이동을 가능하게함
 파이어베이스와 연동을 통해서 레시피 정보를 가져온 후 
 리사이클러 뷰를 사용해서 레시피 리스트 출력
+작성자: 오기탁
+설명: edittext와 연결해주어 검색을 가능하게함
+리사이클러 뷰를 사용해서 레시피 리스트 출력
  */
 public class FragRecipe extends Fragment{
     private View view;
